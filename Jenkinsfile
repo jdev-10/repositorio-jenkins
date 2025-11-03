@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo 'Clonando el repositorio...'
-                git branch: 'master', url: 'https://github.com/jdev-10/repositorio-jenkins.git'
+                git branch: 'main', url: 'https://github.com/jdev-10/repositorio-jenkins.git'
             }
         }
         stage('Build') {
