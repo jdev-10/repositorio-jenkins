@@ -33,6 +33,15 @@ pipeline {
                 }
             }
         }
+        stage('Deploy') {
+            steps {
+                echo 'Desplegando contenedor...'
+                sh '''
+                    docker ps -q --filter "name=express-pokemonsapi" | grep -q . && docker stop express-pokemonsapi && docker rm express-pokemonsapi || true
+                    docker run -d --name express-pokemonsapi -p 8081:8081 express-pokemonsapi:latest
+                '''
+            }
+        }
     }
         
     post {
