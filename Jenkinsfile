@@ -35,10 +35,15 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Desplegando contenedor...'
                 sh '''
-                    docker ps -q --filter "name=express-pokemonsapi" | grep -q . && docker stop express-pokemonsapi && docker rm express-pokemonsapi || true
-                    docker run -d --name express-pokemonsapi -p 8081:8081 express-pokemonsapi:latest
+                echo "Desplegando contenedor..."
+                # Si el contenedor ya existe, detenerlo y eliminarlo
+                if [ "$(docker ps -aq -f name=express-pokemonsapi)" ]; then
+                    docker stop express-pokemonsapi || true
+                    docker rm express-pokemonsapi || true
+                fi
+
+                docker run -d --name express-pokemonsapi -p 8081:8081 express-pokemonsapi:latest
                 '''
             }
         }
